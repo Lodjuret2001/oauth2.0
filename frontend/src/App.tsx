@@ -1,9 +1,9 @@
-import GoogleButton from "./components/GoogleButton";
+import SignInGrid from "./components/SignInGrid";
 
 const App = () => {
   return (
     <>
-      <GoogleButton />
+      <SignInGrid></SignInGrid>
     </>
   );
 };

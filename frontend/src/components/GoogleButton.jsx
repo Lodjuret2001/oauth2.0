@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
 
-const GoogleButton = () => {
+const GoogleButton = ({ setGoogleUser }) => {
   const [scriptLoaded, setScriptLoaded] = useState(false);
   useEffect(() => {
     const script = document.createElement("script");
@@ -22,7 +22,12 @@ const GoogleButton = () => {
       function handleResponseCallback(response) {
         console.log("This is the encoded JWT ID TOKEN: " + response.credential);
         const userObject = jwtDecode(response.credential);
-        console.log(userObject);
+        const googleUser = {
+          firstName: userObject.given_name,
+          lastName: userObject.family_name,
+          picture: userObject.picture,
+        };
+        setGoogleUser(googleUser);
       }
 
       google.accounts.id.initialize({
