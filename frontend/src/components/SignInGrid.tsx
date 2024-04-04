@@ -17,6 +17,7 @@ const SignInGrid = () => {
   const handleGoogleUser = (user: User) => {
     setGoogleUser(user);
   };
+
   const handleLinkedInUser = (user: User) => {
     setLinkedInUser(user);
   };
@@ -30,10 +31,7 @@ const SignInGrid = () => {
         className="bg-purple-500 w-4/5 flex justify-between mt-6"
         style={{ height: "250px" }}
       >
-        <div
-          id="signInDivGoogle"
-          className="bg-yellow flex justify-evenly flex-col"
-        >
+        <div id="signInDiv" className="bg-yellow flex justify-evenly flex-col">
           {googleUser && (
             <div>
               <h2 className="font-bold">Google User Information</h2>
