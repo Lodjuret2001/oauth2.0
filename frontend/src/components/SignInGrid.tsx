@@ -1,13 +1,8 @@
 import { useState } from "react";
+import User from "../utils/User";
 import GoogleButton from "./GoogleButton";
 import LinkedInButton from "./LinkedInButton";
 import FacebookButton from "./FacebookButton";
-
-interface User {
-  firstName: string;
-  lastName: string;
-  picture: string;
-}
 
 const SignInGrid = () => {
   const [googleUser, setGoogleUser] = useState<User>();
@@ -17,7 +12,6 @@ const SignInGrid = () => {
   const handleGoogleUser = (user: User) => {
     setGoogleUser(user);
   };
-
   const handleLinkedInUser = (user: User) => {
     setLinkedInUser(user);
   };
@@ -37,29 +31,32 @@ const SignInGrid = () => {
               <h2 className="font-bold">Google User Information</h2>
               <p>First Name: {googleUser.firstName}</p>
               <p>Last Name: {googleUser.lastName}</p>
+              <p>Email: {googleUser.email}</p>
               <img src={googleUser.picture} alt="Profile" />
             </div>
           )}
           <GoogleButton setGoogleUser={handleGoogleUser} />
         </div>
-        <div id="signInDivLinkedIn" className="bg-blue">
+        <div id="signInDivLinkedIn" className="bg-blue flex justify-evenly flex-col">
           {linkedInUser && (
             <div>
               <h2 className="font-bold">LinkedIn User Information</h2>
               <p>First Name: {linkedInUser.firstName}</p>
               <p>Last Name: {linkedInUser.lastName}</p>
+              <p>Email: {linkedInUser.email}</p>
               <img src={linkedInUser.picture} alt="Profile" />
             </div>
           )}
 
           <LinkedInButton setLinkedInUser={handleLinkedInUser} />
         </div>
-        <div id="signInDivFacebook" className="bg-pink">
+        <div id="signInDivFacebook" className="bg-pink flex justify-evenly flex-col">
           {facebookUser && (
             <div>
               <h2 className="font-bold">Facebook User Information</h2>
               <p>First Name: {facebookUser.firstName}</p>
               <p>Last Name: {facebookUser.lastName}</p>
+              <p>Email: {facebookUser.email}</p>
               <img src={facebookUser.picture} alt="Profile" />
             </div>
           )}

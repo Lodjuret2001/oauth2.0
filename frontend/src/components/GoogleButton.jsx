@@ -1,9 +1,32 @@
 import { useEffect, useState } from "react";
+import User from "../utils/User";
 import { jwtDecode } from "jwt-decode";
 
 const GoogleButton = ({ setGoogleUser }) => {
   const [scriptLoaded, setScriptLoaded] = useState(false);
   const [user, setUser] = useState({});
+
+  function handleResponseCallback(response) {
+    const userObject = jwtDecode(response.credential);
+
+    const googleUser = new User(
+      userObject.given_name,
+      userObject.family_name,
+      userObject.picture,
+      userObject.email
+    );
+
+    setUser(googleUser);
+    setGoogleUser(googleUser);
+    document.getElementById("signInDivGoogle").hidden = true;
+  }
+
+  function handleSignOut() {
+    setUser({});
+    setGoogleUser(null);
+    document.getElementById("signInDivGoogle").hidden = false;
+  }
+
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://accounts.google.com/gsi/client";
@@ -18,32 +41,10 @@ const GoogleButton = ({ setGoogleUser }) => {
     setScriptLoaded(true);
   }, []);
 
-  function handleResponseCallback(response) {
-    console.log("This is the encoded JWT ID TOKEN: " + response.credential);
-    const userObject = jwtDecode(response.credential);
-    const googleUser = {
-      firstName: userObject.given_name,
-      lastName: userObject.family_name,
-      picture: userObject.picture,
-    };
-
-    console.log(googleUser);
-    setUser(googleUser);
-    setGoogleUser(googleUser);
-    document.getElementById("signInDivGoogle").hidden = true;
-  }
-
-  function handleSignOut(event) {
-    setUser({});
-    setGoogleUser(null);
-    document.getElementById("signInDivGoogle").hidden = false;
-  }
-
   useEffect(() => {
     setTimeout(() => {
       google.accounts.id.initialize({
-        client_id:
-          "418927252212-ehnq9ro7b5v4hfcg3gigkof7alushl4u.apps.googleusercontent.com",
+        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
         callback: handleResponseCallback,
       });
 
@@ -53,7 +54,7 @@ const GoogleButton = ({ setGoogleUser }) => {
           theme: "filled_black",
         }
       );
-    }, 20);
+    }, 50);
   }, []);
 
   return (
@@ -62,7 +63,7 @@ const GoogleButton = ({ setGoogleUser }) => {
         <>
           <div id="signInDivGoogle"></div>
           {Object.keys(user) != 0 && (
-            <button onClick={(e) => handleSignOut(e)}>Sign Out</button>
+            <button onClick={() => handleSignOut()}>Sign Out</button>
           )}
         </>
       ) : (
