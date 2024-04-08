@@ -3,8 +3,21 @@ import User from "../utils/User";
 import { jwtDecode } from "jwt-decode";
 
 const GoogleButton = ({ setGoogleUser }) => {
-  const [scriptLoaded, setScriptLoaded] = useState(false);
   const [user, setUser] = useState({});
+
+  useEffect(() => {
+    google.accounts.id.initialize({
+      client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
+      callback: handleResponseCallback,
+    });
+
+    google.accounts.id.renderButton(
+      document.getElementById("google-login-box"),
+      {
+        theme: "filled_black",
+      }
+    );
+  }, []);
 
   function handleResponseCallback(response) {
     const userObject = jwtDecode(response.credential);
@@ -18,57 +31,29 @@ const GoogleButton = ({ setGoogleUser }) => {
 
     setUser(googleUser);
     setGoogleUser(googleUser);
-    document.getElementById("signInDivGoogle").hidden = true;
+    document.getElementById("google-login-box").hidden = true;
   }
 
   function handleSignOut() {
     setUser({});
     setGoogleUser(null);
-    document.getElementById("signInDivGoogle").hidden = false;
+    document.getElementById("google-login-box").hidden = false;
   }
-
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src = "https://accounts.google.com/gsi/client";
-    script.async = true;
-    script.defer = true;
-
-    script.onerror = () => {
-      setScriptLoaded(false);
-    };
-
-    document.head.appendChild(script);
-    setScriptLoaded(true);
-  }, []);
-
-  useEffect(() => {
-    setTimeout(() => {
-      google.accounts.id.initialize({
-        client_id: import.meta.env.VITE_GOOGLE_CLIENT_ID,
-        callback: handleResponseCallback,
-      });
-
-      google.accounts.id.renderButton(
-        document.getElementById("signInDivGoogle"),
-        {
-          theme: "filled_black",
-        }
-      );
-    }, 50);
-  }, []);
 
   return (
     <>
-      {scriptLoaded ? (
-        <>
-          <div id="signInDivGoogle"></div>
-          {Object.keys(user) != 0 && (
-            <button onClick={() => handleSignOut()}>Sign Out</button>
-          )}
-        </>
-      ) : (
-        <div>Loading script...</div>
-      )}
+      <div id="google-login-container">
+        {Object.keys(user) != 0 ? (
+          <>
+            <button onClick={() => handleSignOut()} className="bg-white p-1">
+              Sign out from Google
+            </button>
+          </>
+        ) : (
+          <></>
+        )}
+        <div id="google-login-box"></div>
+      </div>
     </>
   );
 };

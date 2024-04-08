@@ -34,7 +34,7 @@ app.get("/auth/linkedin/callback", async (req, res) => {
   }
 });
 
-app.post("/logout", (req, res) => {
+app.delete("/logout", (req, res) => {
   res.clearCookie("accsess_token");
   res.clearCookie("refresh_token");
   res.send("Cookies cleared successfully");

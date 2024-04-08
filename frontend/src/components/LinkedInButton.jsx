@@ -38,14 +38,19 @@ const LinkedInButton = ({ setLinkedInUser }) => {
   const handleSignOut = async () => {
     setLinkedInUser(null);
     setUser({});
-    await axios.post("http://localhost:3000/logout");
+    await axios.delete("http://localhost:3000/logout");
   };
 
   return (
     <div className="signInDivLinkedIn">
       {Object.keys(user) != 0 ? (
         <>
-          <button onClick={() => handleSignOut()}>Sign out</button>
+          <button
+            onClick={() => handleSignOut()}
+            className="p-1 bg-white w-full"
+          >
+            Sign out from LinkedIn
+          </button>
         </>
       ) : (
         <>
