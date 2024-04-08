@@ -1,30 +1,41 @@
-# React + TypeScript + Vite
+# OAuth 2.0 Frontend APP
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This React APP enables seamless integration of OAuth 2.0 authentication into your web application. Users can sign in with their social media accounts and grant access to their profile information.
 
-Currently, two official plugins are available:
+## How to Use
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### Installation
 
-## Expanding the ESLint configuration
+1. Ensure you have the necessary dependencies installed in your project. You can install them using npm
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+2. Ensure you have setup Client apps in Google, LinkedIn and Facebook.
 
-- Configure the top-level `parserOptions` property like this:
+3. Ensure you have the necessary environment variables configured in your project. Create a `.env` file in the root of your frontend project and add the following variables:
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```dotenv
+VITE_ACCSESS_TOKEN_SECRET = "your_access_token_secret_here"
+VITE_REFRESH_TOKEN_SECRET = "your_refresh_token_secret_here"
+VITE_GOOGLE_CLIENT_ID = "your_google_client_id_here"
+VITE_GOOGLE_CLIENT_SECRET = "your_google_client_secret_here"
+VITE_LINKEDIN_CLIENT_ID = "your_linkedin_client_id_here"
+VITE_LINKEDIN_CLIENT_SECRET = "your_linkedin_client_secret_here"
+VITE_LINKEDIN_REDIRECT_URI = "your_linkedin_redirect_uri_here"
+VITE_FACEBOOK_APP_ID = "your_facebook_app_id_here"
+VITE_FACEBOOK_APP_SECRET = "your_facebook_app_secret_here"
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+Replace `your_access_token_secret_here` and all others with your actual values.
+
+### Functionality
+
+- When the user clicks on any sign-in button, they will be redirected to the Client authorization page.
+
+- After the user grants access, they will be redirected back to your application's specified redirect URI.
+
+- Upon successful authentication, the component will retrieve the user's profile information and set it in the state.
+
+- If the user is already authenticated, their information will be displayed, and a "Sign out" button will be provided to log out.
+
+## BUGS & PR
+
+- Feel free to send PR or reach out to me if you have any questions regardning this project.
